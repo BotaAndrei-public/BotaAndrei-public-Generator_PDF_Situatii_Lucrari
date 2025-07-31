@@ -73,7 +73,7 @@ export const WorkSituationForm: React.FC<WorkSituationFormProps> = ({ onSubmit }
     const totalBT = Number(sum.toFixed(2));
     setTotalBeforeTax(totalBT);
     
-    const vatValue = Number((sum * 0.19).toFixed(2));
+    const vatValue = Number((sum * 0.21).toFixed(2));
     setVat(vatValue);
     
     const totalValue = Number((sum + vatValue).toFixed(2));
@@ -313,7 +313,7 @@ export const WorkSituationForm: React.FC<WorkSituationFormProps> = ({ onSubmit }
                 <TableCell></TableCell>
               </TableRow>
               <TableRow className="total-row">
-                <TableCell colSpan={6} className="text-right">TVA 19%</TableCell>
+                <TableCell colSpan={6} className="text-right">TVA 21%</TableCell>
                 <TableCell>{vat}</TableCell>
                 <TableCell></TableCell>
               </TableRow>

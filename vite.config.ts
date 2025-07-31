@@ -19,5 +19,5 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/BotaAndrei-public-Generator_PDF_Situatii_Lucrari",
+  base: "/BotaAndrei-public-Generator_PDF_Situatii_Lucrari/",
 }));
