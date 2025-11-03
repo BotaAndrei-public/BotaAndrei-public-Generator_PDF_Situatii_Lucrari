@@ -56,7 +56,7 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
           item.valueThisMonth
         ]),
         ['', 'Total', '', '', '', '', data.totalBeforeTax + " RON"  ],
-        ['', 'TVA 19%', '', '', '', '', data.vat + " RON"],
+        ['', 'TVA 21%', '', '', '', '', data.vat + " RON"],
         ['', 'Total general', '', '', '', '', data.total + " RON"],
         ['', 'Rest de plata', '', '', '', '', data.remainingToPay + " RON"]
       ],
