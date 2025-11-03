@@ -134,7 +134,7 @@ export const WorkSituationForm: React.FC<WorkSituationFormProps> = ({ onSubmit }
               checked={hasSubcontractor}
               onCheckedChange={(checked) => setHasSubcontractor(!!checked)}
             />
-            <Label htmlFor="hasSubcontractor">Include subantreprenor</Label> <span>NU UITA DE STAMPILA !!!</span>
+            <Label htmlFor="hasSubcontractor">Include subantreprenor</Label> <span className="text-red-500 text-sm" >NU UITA DE STAMPILA !!!</span>
           </div>
 
           {hasSubcontractor && (
