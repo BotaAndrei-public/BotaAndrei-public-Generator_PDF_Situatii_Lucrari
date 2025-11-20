@@ -4,6 +4,9 @@
   margin: 0 auto;
   padding: 1rem;
 }
+*{
+   transition: 0.5s;
+}
 
 @media print {
   .no-print {
@@ -19,4 +22,16 @@
 .input-number::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* Chrome, Safari, Edge */
+.no-spin::-webkit-outer-spin-button,
+.no-spin::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.no-spin[type='number'] {
+  -moz-appearance: textfield;
 }
