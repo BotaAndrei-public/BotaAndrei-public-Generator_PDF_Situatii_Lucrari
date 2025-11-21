@@ -5,6 +5,7 @@ export interface WorkItem {
   totalQuantity: number;
   quantityThisMonth: number;
   rate: number;
+  bool: boolean[];
   valueThisMonth: number;
 }
 
@@ -26,15 +27,25 @@ export interface WorkSituationData {
 }
 
 export const defaultWorkItems: WorkItem[] = [
-  { id: 1, name: '', unit: '', totalQuantity: 0, quantityThisMonth: 0, rate: 0, valueThisMonth: 0 },
+  {
+    id: 1,
+    name: "",
+    unit: "",
+    totalQuantity: 0,
+    quantityThisMonth: 0,
+    rate: 0,
+    bool: [false,false,false],
+    valueThisMonth: 0,
+  },
 ];
 
 export const createEmptyWorkItem = (id: number): WorkItem => ({
   id,
-  name: '',
-  unit: '',
+  name: "",
+  unit: "",
   totalQuantity: 0,
   quantityThisMonth: 0,
   rate: 0,
-  valueThisMonth: 0
+  bool: [false,false,false],
+  valueThisMonth: 0,
 });
