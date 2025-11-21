@@ -285,7 +285,7 @@ export const WorkSituationForm: React.FC<WorkSituationFormProps> = ({
               <Image size={18} />
               Include imagine la finalul PDF
             </Label>
-            <span className="text-red-500 font-bold text-[12px] shadow-md border-[2px] border-red-200 bg-red-100 p-2 rounded-md">
+            <span className="text-red-500 font-bold text-[12px] shadow-md border-[2px] border-red-200 bg-red-100 p-2 rounded-md AlertMSG">
               NU UITA DE STAMPILA !!!
             </span>
           </div>
