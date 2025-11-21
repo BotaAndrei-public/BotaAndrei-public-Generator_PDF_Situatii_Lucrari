@@ -1,7 +1,7 @@
 # SituatiiDeLucrariGenerator
 
 **SituatiiDeLucrariGenerator** is a web application designed to streamline the creation of **"Situații de Lucrări" (Work Progress Reports)** - essential documents in Romanian construction paperwork.
-
+- **Live Demo**: [Open](https://botaandrei-public.github.io/BotaAndrei-public-Generator_PDF_Situatii_Lucrari/)
 ## Key Features
 
 - Dynamic work item management with **add/remove functionality**.
