@@ -1,91 +1,161 @@
-<<<<<<< HEAD
-# BotaAndrei-public-Generator_PDF_Situatii_Lucrari
-=======
-<<<<<<< HEAD
-# BotaAndrei-public-Generator_PDF_Situatii_Lucrari
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Welcome to your Lovable project
+# SituatiiDeLucrariGenerator
 
-## Project info
+**SituatiiDeLucrariGenerator** is a web application designed to streamline the creation of **"Situații de Lucrări" (Work Progress Reports)** - essential documents in Romanian construction paperwork.
 
-**URL**: https://lovable.dev/projects/03fe300b-dab6-4582-af77-ba06ccb9b606
+## Key Features
 
-## How can I edit this code?
+- Dynamic work item management with **add/remove functionality**.
+- **Real-time automatic calculations** with visual feedback animations (values turn green when updated).
+- Flexible **formula-based computation**: select which fields to multiply (Quantity × Hours × Rate).
+- **Professional PDF generation** with company branding, logos, and certifications.
+- **Automatic page breaks** - multi-page documents handled seamlessly.
+- Optional **signature/stamp image attachment** for authenticated documents.
+- Support for **subcontractor information** and complex project structures.
+- **VAT calculation (21%)** and automatic totals tracking.
 
-There are several ways of editing your application.
+## Purpose
 
-**Use Lovable**
+The application is primarily designed as a **utility tool for small family construction businesses**, but it can also serve as a **template for construction documentation systems**. It reduces document creation time from 30+ minutes to under 5 minutes while eliminating manual calculation errors.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/03fe300b-dab6-4582-af77-ba06ccb9b606) and start prompting.
+## Technology Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React with TypeScript
+- **Form Management**: React Hook Form
+- **PDF Generation**: jsPDF + jsPDF-AutoTable
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
 
-**Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Calculation Logic
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Each work item uses a flexible formula system:
 
-Follow these steps:
+```
+Value = (Quantity?) × (Hours?) × (Rate?)
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Check the box next to each field to include it in the calculation
+- Unchecked fields are treated as 1 (neutral multiplier)
+- If all boxes are unchecked, the value is 0
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+**Examples:**
+- ✅ Quantity: 100 × ✅ Hours: 8 × ✅ Rate: 50 = **40,000 RON**
+- ✅ Quantity: 5 × ❌ Hours: - × ✅ Rate: 200 = **1,000 RON**
+- ❌ Quantity: - × ✅ Hours: 40 × ✅ Rate: 75 = **3,000 RON**
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Document Structure
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+The generated PDF includes:
+
+1. **Header Section**: Company logo and multiple certification badges
+2. **Project Information**: Beneficiary, construction site, period, contact details
+3. **Work Items Table**: Detailed breakdown with all measurements and calculations
+4. **Financial Summary**: 
+   - Subtotal (before VAT)
+   - VAT 21%
+   - Grand Total
+   - Remaining Payment
+5. **Signature Section**: Director, Executor, Site Manager
+6. **Optional Attachments**: Stamp/signature image
+
+## Installation & Running
+
+### Prerequisites
+
+```bash
+Node.js 16+ and npm
+```
+
+### Option 1: Run Locally (Development)
+
+1. **Clone the repository:**
+```bash
+git clone [your-repository-url]
+cd SituatiiDeLucrariGenerator
+```
+
+2. **Install dependencies:**
+```bash
+npm install
+```
+
+3. **Start the development server:**
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. **Open your browser and navigate to:**
+```
+http://localhost:5173
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Option 2: Build for Production
 
-**Use GitHub Codespaces**
+1. **Build the project:**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2. **Preview the production build:**
+```bash
+npm run preview
+```
 
-## What technologies are used for this project?
+3. **Deploy the `dist` folder to your hosting service.**
 
-This project is built with:
+## Usage Guide
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Step 1: Fill Basic Information
+- Enter **Beneficiary** (client name)
+- Enter **Construction Site** details
+- Select **Period** (month and year)
+- Optionally add **Subcontractor** information
 
-## How can I deploy this project?
+### Step 2: Add Work Items
+- Click **"Adaugă rând"** to add new work entries
+- Fill in:
+  - Work description
+  - Unit of measurement (U.M.)
+  - Total quantity
+  - Hours worked
+  - Rate per unit
+- **Check the boxes** next to values you want to include in calculations
 
-Simply open [Lovable](https://lovable.dev/projects/03fe300b-dab6-4582-af77-ba06ccb9b606) and click on Share -> Publish.
+### Step 3: Attach Signature (Optional)
+- Enable **"Include imagine la finalul PDF"**
+- Upload your company stamp or signature image
+- Preview appears before PDF generation
 
-## Can I connect a custom domain to my Lovable project?
+### Step 4: Generate PDF
+- Review all calculations in the **live preview panel**
+- Click **"Previzualizează PDF"** to see the document
+- Click **"Descarcă PDF"** to download the final file
 
-Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Project Structure
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
-=======
-# BotaAndrei-public-Generator_PDF_Situatii_Lucrari
-BotaAndrei-public/Generator_PDF_Situatii_Lucrari
->>>>>>> f7940b8549845c26e24a0e404fffeac2bdc02800
-=======
-# Generator_PDF_Situatii_Lucrari
-REACT VITE Generator_PDF_Situatii_Lucrari
->>>>>>> 91c2f4da060a5b71038c1bc302031bb9f44bd46f
->>>>>>> 37c6eb9 (commit V1)
->>>>>>> e481794 (commit V1)
+```
+src/
+├── components/
+│   ├── WorkSituationForm.tsx    # Main form component
+│   ├── PdfPreview.tsx            # PDF generation logic
+│   └── ui/                       # shadcn/ui components
+├── types/
+│   └── workSituation.ts          # TypeScript interfaces
+├── fonts/
+│   └── Roboto-Regular-normal.js  # Custom font with diacritics
+└── public/
+    └── [company logos]            # Branding assets
+```
+
+## License
+
+MIT License - Feel free to use, modify, and distribute.
+
+## Author
+
+**Bota Andrei**
+
+---
+
+**Note**: This tool specifically addresses Romanian construction documentation requirements and includes Romanian language labels and terminology. Exchange rates and financial calculations should be verified with official sources for legal documentation.
