@@ -89,7 +89,7 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
           "NR. CRT",
           "DENUMIRE LUCRARI",
           "U.M.",
-          "Cantitate totală",
+          "Cantitate totala",
           "Nr. Ore",
           "Tarif",
           "Valoare (RON)",
