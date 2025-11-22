@@ -11,6 +11,7 @@ import sigla2 from "../../public/BULETIN DE MASURARE_26 ELECON PLUS_html_3e6d2ef
 import sigla3 from "../../public/BULETIN DE MASURARE_26 ELECON PLUS_html_440b173a.png";
 // Importă modulul generat pentru fontul Roboto cu diacritice
 import "@/fonts/Roboto-Regular-normal.js";
+import { set } from "date-fns";
 
 interface PdfPreviewProps {
   data: WorkSituationData | null;
@@ -18,13 +19,56 @@ interface PdfPreviewProps {
 
 const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
   const [pdfPreview, setPdfPreview] = React.useState<string | null>(null);
+  const [color, setColor] = React.useState("#d6d6d6"); // culoare default
+  const [PDF_txt_color, setPDF_txt_color] = React.useState("#000000"); // culoare default
+  const [ecoMode, setEcoMode] = React.useState(true);
+
+  const setEco = (ecoMode) => {
+    if (ecoMode == true) {
+      setColor("#0066ff");
+      setPDF_txt_color("#ffffff");
+      setEcoMode(false);
+      
+    } else {
+      setColor("#d6d6d6");
+      
+      setPDF_txt_color("#000000");
+      setEcoMode(true);
+    }
+  };
 
   const generatePdf = (preview: boolean = false) => {
+    
     if (!data) return;
+
+    const hexToRgb = (hex: string) => {
+      const bigint = parseInt(hex.replace("#", ""), 16);
+      return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255,
+      };
+    };
+
+    const lightenColor = (hex: string, amount: number) => {
+      const bigint = parseInt(hex.replace("#", ""), 16);
+      let r = (bigint >> 16) & 255;
+      let g = (bigint >> 8) & 255;
+      let b = bigint & 255;
+
+      // creștem fiecare canal spre alb (255)
+      r = Math.min(r + amount, 255);
+      g = Math.min(g + amount, 255);
+      b = Math.min(b + amount, 255);
+
+      return { r, g, b };
+    };
 
     const doc = new jsPDF();
     const pageHeight = doc.internal.pageSize.height;
-    const pageWidth = doc.internal.pageSize.width;
+    const pageWidth = 200;
+    const colorUP = 10;
+    const { r: colorR, g: colorG, b: colorB } = lightenColor(color, colorUP);
 
     // Logo firmă
     let y = 25;
@@ -61,10 +105,15 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
     doc.setFontSize(12);
 
     // Titluri principale
-    doc.text("BENEFICIAR: " + data.beneficiary, 14, 45);
-    doc.text("ȘANTIER: " + data.site, 14, 50);
-    doc.text("Email: electrograndserv@gmail.com", 14, 55);
-    doc.text("Telefon: +40 744 290 613", 14, 60);
+
+    let localSpace = 2;
+    doc.text("Email: electrograndserv@gmail.com", 14, 45);
+    doc.text("Telefon: +40 744 290 613", 14, 50);
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(colorR, colorG, colorB); // albastru frumos (#0066FF)
+    doc.line(14, 50 + localSpace, 200, 50 + localSpace); // x1, y1, x2, y2 (linie de la stânga la dreapta)
+    doc.text("BENEFICIAR: " + data.beneficiary, 14, 55 + localSpace);
+    doc.text("ȘANTIER: " + data.site, 14, 60 + localSpace);
 
     if (data.subcontractor) {
       doc.text("SUBANTREPRENOR: " + data.subcontractor, 14, 65);
@@ -80,6 +129,7 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
       align: "center",
     });
 
+    doc.setFillColor(31, 67, 101);
     // Tabelul cu lucrările - autoTable gestionează automat paginile noi
     autoTable(doc, {
       startY: 65,
@@ -114,16 +164,17 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
         fontSize: 10,
         cellPadding: 3,
         font: "Roboto-Regular",
-        
       },
       headStyles: {
         font: "helvetica",
         fontStyle: "bold",
         fontSize: 10,
+        textColor: PDF_txt_color,
+        fillColor: [colorR, colorG, colorB], // albastru
       },
       columnStyles: {
         0: { cellWidth: 15 },
-        1: { cellWidth: 50 },
+        1: { cellWidth: 61 },
         2: { cellWidth: 15 },
         3: { cellWidth: 25 },
         4: { cellWidth: 25 },
@@ -161,15 +212,35 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
       const newPageY = 30;
 
       // Dreptunghi verde pentru beneficiar
-      doc.setFillColor(26, 189, 156);
+      doc.setFillColor(colorR, colorG, colorB);
       doc.setLineWidth(0.5);
       doc.setDrawColor(0, 0, 0);
-      doc.rect(10, newPageY - 7, pageWidth - 20, 10, "FD");
+      doc.rect(14, newPageY - 7, pageWidth-14, 10, "F");
 
-      doc.setTextColor(255, 255, 255);
-      doc.text(data.beneficiary, 14, newPageY, { maxWidth: pageWidth - 30 });
+      doc.setTextColor(PDF_txt_color);
+      doc.text(data.beneficiary, 16, newPageY, { maxWidth: pageWidth - 14 });
 
-      doc.setTextColor(0, 0, 0);
+      //  doc.setFillColor(colorR, colorG, colorB);
+      //   //doc.setLineWidth(0);
+      //   doc.setDrawColor(0, 0, 0);
+      //   doc.rect(14, finalY + margin - 7, pageWidth - 35, 10, "F");
+
+      //   doc.setTextColor(255, 255, 255);
+      //   doc.text(data.beneficiary, 16, finalY + margin, {
+      //     maxWidth: pageWidth - 35,
+      //   });
+
+      //       doc.setFillColor(colorR, colorG, colorB);
+      // //doc.setLineWidth(0);
+      // doc.setDrawColor(0, 0, 0);
+      // doc.rect(14, finalY + margin - 7, pageWidth - 14, 10, "F");
+
+      // doc.setTextColor(PDF_txt_color);
+      // doc.text(data.beneficiary, 16, finalY + margin, {
+      //   maxWidth: pageWidth - 14,
+      // });
+
+      doc.setTextColor(PDF_txt_color);
       doc.setFontSize(12);
       doc.text("Director:", 14, newPageY + 10);
       doc.setFontSize(10);
@@ -211,22 +282,22 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
       }
     } else {
       // Semnături pe aceeași pagină
-      doc.setFillColor(26, 189, 156);
-      doc.setLineWidth(0.5);
+      doc.setFillColor(colorR, colorG, colorB);
+      //doc.setLineWidth(0);
       doc.setDrawColor(0, 0, 0);
-      doc.rect(10, finalY + margin - 7, pageWidth - 20, 10, "FD");
+      doc.rect(14, finalY + margin - 7, pageWidth - 14, 10, "F");
 
-      doc.setTextColor(255, 255, 255);
-      doc.text(data.beneficiary, 14, finalY + margin, {
-        maxWidth: pageWidth - 30,
+      doc.setTextColor(PDF_txt_color);
+      doc.text(data.beneficiary, 16, finalY + margin, {
+        maxWidth: pageWidth - 14,
       });
 
       //Difereta text jos pg
-      const difEl=-4;
+      const difEl = -4;
 
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(12);
-      doc.text("Director:", 14, finalY + margin + 10 );
+      doc.text("Director:", 14, finalY + margin + 10);
       doc.setFontSize(10);
       doc.text(data.director || "", 14, finalY + margin + 20 + difEl);
 
@@ -236,14 +307,14 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
       }
 
       doc.setFontSize(12);
-      doc.text("Executant:", 140, finalY + margin + 10 , { align: "left" });
+      doc.text("Executant:", 140, finalY + margin + 10, { align: "left" });
       doc.setFontSize(10);
       doc.text(data.executor || "", 140, finalY + margin + 20 + difEl, {
         align: "left",
       });
 
       doc.setFontSize(12);
-      doc.text("Șef lucrări:", 140, finalY + margin + 30 , { align: "left" });
+      doc.text("Șef lucrări:", 140, finalY + margin + 30, { align: "left" });
       doc.setFontSize(10);
       doc.text(data.siteManager || "", 140, finalY + margin + 40 + difEl, {
         align: "left",
@@ -426,6 +497,47 @@ const PdfPreview: React.FC<PdfPreviewProps> = ({ data }) => {
         >
           <Download size={16} />
           <span>Descarcă PDF</span>
+        </Button>
+
+        {/* //pickColor */}
+        <div className="relative">
+          <div
+            onClick={() => document.getElementById("color-picker")?.click()}
+            className="w-10 h-10 rounded-full border-[1px] border-black cursor-pointer"
+            style={{ backgroundColor: color }}
+          />
+          <input
+            id="color-picker"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="absolute opacity-0 w-0 h-0"
+          />
+        </div>
+        <Button
+          className={`${
+            ecoMode ? "bg-emerald-400" : "bg-slate-100"
+          } font-bold text-shadow `}
+          onClick={() => setEco(ecoMode)}
+        >
+          {" "}
+          Eco mode{" "}
+          <span
+            className={`${
+              ecoMode ? "text-white" : "text-red-500"
+            } font-bold text-shadow `}
+            onClick={() => setEco(ecoMode)}
+          >
+            {ecoMode ? "ON" : "OFF"}
+          </span>{" "}
+          <span
+            className={`${
+              ecoMode ? "bg-black" : "bg-blue-500"
+            } p-1 rounded-full`}
+          >
+            {" "}
+            {ecoMode ? "♻️" : "⚡"}
+          </span>
         </Button>
       </div>
       {pdfPreview && (
